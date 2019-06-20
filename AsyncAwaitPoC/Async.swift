@@ -11,7 +11,6 @@ import Foundation
 class Async{
 
     let queue: DispatchQueue
-    var value: Any?
     
     init() {
         queue = DispatchQueue(
@@ -23,7 +22,7 @@ class Async{
     func await(_ closure: @escaping () -> () ) {
         DispatchQueue.global(qos: .userInitiated).async {
             DispatchQueue.global(qos: .userInitiated).sync {
-                self.value = closure()
+                closure()
             }
         }
     }
