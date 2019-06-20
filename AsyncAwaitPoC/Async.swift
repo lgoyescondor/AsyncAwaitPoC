@@ -9,9 +9,25 @@
 import Foundation
 
 class Async{
-    func await(_ closure: @escaping () -> () ) {
+    class func await(_ closure: @escaping () -> (), doFinally: @escaping () -> () = { } ) {
         DispatchQueue.global(qos: .userInitiated).sync {
             closure()
+            DispatchQueue.main.async {
+                doFinally()
+            }
+        }
+    }
+    
+    class func await(_ closure: @escaping () throws -> (), onError: (Error) -> (), doFinally: @escaping () -> ()  = { } ) {
+        DispatchQueue.global(qos: .userInitiated).sync {
+            do {
+                try closure()
+            } catch {
+                onError(error)
+            }
+            DispatchQueue.main.async {
+                doFinally()
+            }
         }
     }
 }

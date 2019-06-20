@@ -9,8 +9,6 @@
 import UIKit
 
 class ViewController: UIViewController {
-    
-    let async = Async()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,43 +17,29 @@ class ViewController: UIViewController {
     }
     
     func oscar() {
-        DispatchQueue.main.async {
-            
-            self.async.await({
-                print( self.request1() )
-                print( self.request2() )
-            })
-            
-            print("Happening")
-            
-        }
-        
-        print("Bitch")
-    }
-    
-    func david() {
-        let async = Async()
-        async.await({
+        print("spinner")
+        Async.await({
+            let result1 = try self.request1()
+            let result2 = self.request2()
             
             DispatchQueue.main.async {
-                print( self.request1() )
+                print(result1)
+                print(result2)
             }
-            
-            DispatchQueue.main.async {
-                print( self.request2() )
-            }
+        }, onError: {
+            debugPrint($0)
+        }, doFinally: {
+            print("A la verga")
         })
-        
-        print("Culito")
     }
     
-    func request1() -> String {
-        sleep(2)
+    func request1() throws -> String {
+        sleep(10)
         return "request1"
     }
     
     func request2() -> String {
-        sleep(1)
+        sleep(5)
         return "request2"
     }
 }
