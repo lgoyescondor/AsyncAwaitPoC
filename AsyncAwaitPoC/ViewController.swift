@@ -9,10 +9,31 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    let async = Async()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        oscar()
+    }
+    
+    func oscar() {
+        DispatchQueue.main.async {
+            
+            self.async.await({
+                print( self.request1() )
+                print( self.request2() )
+            })
+            
+            print("Happening")
+            
+        }
+        
+        print("Bitch")
+    }
+    
+    func david() {
         let async = Async()
         async.await({
             
@@ -24,12 +45,8 @@ class ViewController: UIViewController {
                 print( self.request2() )
             }
         })
-
+        
         print("Culito")
-    }
-    
-    func culito() -> Any {
-        return "Oscar Tomas"
     }
     
     func request1() -> String {

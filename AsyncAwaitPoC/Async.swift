@@ -9,21 +9,9 @@
 import Foundation
 
 class Async{
-
-    let queue: DispatchQueue
-    
-    init() {
-        queue = DispatchQueue(
-            label: "coroutine",
-            qos: .userInitiated,
-            attributes: .concurrent)
-    }
-    
     func await(_ closure: @escaping () -> () ) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            DispatchQueue.global(qos: .userInitiated).sync {
-                closure()
-            }
+        DispatchQueue.global(qos: .userInitiated).sync {
+            closure()
         }
     }
 }
